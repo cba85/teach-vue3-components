@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <increment></increment>
+      <one></one>
+      <two></two>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+
+    <script>
+      const bus = mitt();
+
+      let One = {
+        data() {
+          return {
+            number: 0,
+          };
+        },
+        template: `<span>{{ number }}</span>`,
+        mounted() {
+          bus.on("increment", () => {
+            //console.log("test");
+            this.number++;
+          });
+        },
+      };
+
+      let Two = {
+        data() {
+          return {
+            number: 0,
+          };
+        },
+        template: `<span>{{ number }}</span>`,
+        mounted() {
+          bus.on("increment", () => {
+            //console.log("test");
+            this.number = this.number * 2;
+          });
+        },
+      };
+
+      let Increment = {
+        template: `
+                <button @click.prevent="increment">Increment</button>
+            `,
+        methods: {
+          increment() {
+            bus.emit("increment");
+          },
+        },
+      };
+
+      // Vue instance
+      const app = Vue.createApp({
+        components: {
+          One,
+          Two,
+          Increment,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

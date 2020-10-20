@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar></sidebar>
+      <main-content></main-content>
+      <user></user>
+      <post></post>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+      let Admin = {
+        template: `<div class="admin">Admin</div>`,
+      };
+
+      let Post = {
+        data() {
+          return {
+            title: "The tile",
+          };
+        },
+        components: {
+          Admin,
+        },
+        template: `<div class="post">
+        <h1>Title</h1>
+        <admin></admin>
+        <p>lorem ipsum</p>
+        </div>`,
+      };
+
+      // Vue instance
+      const app = Vue.createApp({
+        components: {
+          Post,
+        },
+      });
+
+      // Register component globally
+      app.component("sidebar", {
+        template: `
+                <aside>Sidebar</aside>
+            `,
+        /*
+        data() {
+          return {
+            name: "Clément"
+          };
+        }
+        */
+      });
+
+      // "Content" is reserved
+      app.component("main-content", {
+        template: `
+            <div>Content</div>
+          `,
+      });
+
+      app.component("user", {
+        data() {
+          return {
+            name: "Clément",
+          };
+        },
+        template: `
+          <div class="user">{{ name }}</div>
+          `,
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

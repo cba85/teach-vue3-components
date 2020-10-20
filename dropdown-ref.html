@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <register></register>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+      let CountryDropdown = {
+        data() {
+          return {
+            country: "",
+          };
+        },
+        template: `
+            <select id="country" @change="change" ref="country">
+                <option value="">Please choose</option>
+                <option value="FR">France</option>
+                <option value="UK">United Kingdom</option>
+                <option value="US">United States</option>
+            </select>
+            `,
+        methods: {
+          change() {
+            console.log(this.$refs.country);
+            this.$emit("changed", this.$refs.country.value);
+          },
+        },
+      };
+
+      let Register = {
+        components: {
+          CountryDropdown,
+        },
+        data() {
+          return {
+            form: {
+              name: "",
+              country: "",
+            },
+          };
+        },
+        methods: {
+          countryChanged(value) {
+            this.form.country = value;
+            console.log(value);
+          },
+        },
+        template: `
+                <form action="#">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" v-model="form.name" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <country-dropdown v-on:changed="countryChanged"></country-dropdown>
+                    </div>
+
+                    {{ form }}
+                </form>
+            `,
+      };
+      const app = Vue.createApp({
+        components: {
+          Register,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

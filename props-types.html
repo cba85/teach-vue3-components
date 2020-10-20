@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <num :numbers="[1, 2, 3]"></num>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+      let Num = {
+        props: {
+          /*
+          number: {
+            //type: String,
+            //type: Number,
+          },
+          */
+          numbers: {
+            type: Array,
+          },
+        },
+        template: `<p>{{ added }}</p>`,
+        computed: {
+          added() {
+            return this.numbers.reduce((a, b) => a + b, 0);
+          },
+        },
+      };
+
+      const app = Vue.createApp({
+        components: {
+          Num,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

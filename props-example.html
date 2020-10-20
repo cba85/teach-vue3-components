@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <counter :default-numbers="[1, 2, 3]"></counter>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+      let Counter = {
+        props: {
+          defaultNumbers: {
+            type: Array,
+            default() {
+              return [];
+            },
+          },
+        },
+        data() {
+          return {
+            numbers: this.defaultNumbers,
+          };
+        },
+        template: `
+        <div>
+        <ul>
+        <li v-for="number, index in numbers">
+        {{ number }} <a href="#" @click.prevent="increment(index)">Inc</a>
+        </li>
+        </ul>
+        <a href="#" @click.prevent="addNewNumber">Add a new number</a>
+        </div>`,
+        methods: {
+          increment(index) {
+            //this.numbers[index] = this.numbers[index] + 1;
+            this.numbers = this.numbers.map((number, i) => {
+              if (i === index) {
+                number++;
+              }
+              return number;
+            });
+            //console.log(this.numbers);
+          },
+          addNewNumber() {
+            this.numbers.push(1);
+          },
+        },
+        beforeUpdate() {
+          console.log("update");
+        },
+      };
+
+      const app = Vue.createApp({
+        components: {
+          Counter,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

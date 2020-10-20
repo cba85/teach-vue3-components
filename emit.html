@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue components</title>
+  </head>
+  <body>
+    <div id="app">
+      <counter></counter>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+      let IncrementButton = {
+        props: {
+          incrementValue: {
+            default: 1,
+          },
+        },
+        template: `<button @click.prevent="increment">Increment</button>`,
+        methods: {
+          increment() {
+            // Emit
+            this.$emit("increment", this.incrementValue);
+          },
+        },
+      };
+
+      let Counter = {
+        components: {
+          IncrementButton,
+        },
+        data() {
+          return {
+            number: 0,
+          };
+        },
+        template: `
+            <div>
+            {{ number }}
+            <increment-button :increment-value="10" v-on:increment="increment"></increment-button>
+            </div>
+          `,
+        methods: {
+          increment(incrementValue) {
+            console.log(incrementValue);
+            this.number = this.number + incrementValue;
+          },
+        },
+      };
+
+      // Vue instance
+      const app = Vue.createApp({
+        components: {
+          Counter,
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
