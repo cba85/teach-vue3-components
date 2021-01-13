@@ -17,3 +17,4 @@
 1. Chat application :
    1. Basic : `chat.html`
    1. Refactored: `chat2.html`
+1. import/export components
